@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111827">
+<title>Expiry Date Checker</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f4f4f5;color:#18181b}
+main{max-width:520px;margin:0 auto;padding:24px 16px}
+.card{background:white;border:1px solid #d4d4d8;border-radius:18px;padding:20px}
+.label{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#71717a}
+.today{font-size:28px;font-weight:900;margin-top:4px}
+.rows{display:grid;gap:10px;margin-top:18px}
+.row{display:flex;align-items:center;justify-content:space-between;padding:16px;border:1px solid #d4d4d8;border-radius:14px;background:#fafafa}
+.period{font-size:18px;font-weight:900}
+.date{font-size:24px;font-weight:900;letter-spacing:.03em}
+.hint{text-align:center;color:#71717a;font-size:12px;margin-top:14px}
+</style>
+</head>
+<body>
+<main>
+  <div class="card">
+    <div class="label">Today</div>
+    <div id="today" class="today"></div>
+    <div id="rows" class="rows"></div>
+    <div class="hint">Dates update automatically every day.</div>
+  </div>
+</main>
+<script>
+(() => {
+  const periods = [14,21,28,30];
+  const now = new Date();
+  const base = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+  const pad = n => String(n).padStart(2,'0');
+  const todayFmt = d => `${pad(d.getUTCMonth()+1)}/${pad(d.getUTCDate())}/${String(d.getUTCFullYear()).slice(-2)}`;
+  const expFmt = d => `${pad(d.getUTCMonth()+1)}/${pad(d.getUTCDate())}`;
+  document.getElementById('today').textContent = todayFmt(base);
+  const rows = document.getElementById('rows');
+  periods.forEach(n => {
+    const d = new Date(base);
+    d.setUTCDate(d.getUTCDate() + n);
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.innerHTML = `<span class="period">${n} DAYS</span><span class="date">${expFmt(d)}</span>`;
+    rows.appendChild(row);
+  });
+})();
+</script>
+</body>
+</html>

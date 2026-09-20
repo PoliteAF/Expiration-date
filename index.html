@@ -80,7 +80,10 @@
         <div class="today-label">TODAY</div>
         <div class="today-date" id="today"></div>
     </div>
-
+<div class="row">
+    <span class="days">7 DAYS</span>
+    <span class="date" id="date7"></span>
+</div>
     <div class="row">
         <span class="days">14 DAYS</span>
         <span class="date" id="date14"></span>
@@ -100,7 +103,19 @@
         <span class="days">30 DAYS</span>
         <span class="date" id="date30"></span>
     </div>
-
+   
+    <div class="row">
+    <span class="days">CUSTOM DAYS</span>
+    <input
+        type="number"
+        id="customDays"
+        placeholder="Days"
+        min="1"
+        style="width: 80px; font-size: 18px; padding: 6px;"
+    >
+    <span class="date" id="customDate"></span>
+</div>
+   
 </div>
 
 <script>
@@ -126,7 +141,10 @@ const today = new Date();
 
 document.getElementById("today").textContent =
     formatDate(today, true);
-
+   
+document.getElementById("date7").textContent =
+    formatDate(addDays(today, 7));
+   
 document.getElementById("date14").textContent =
     formatDate(addDays(today, 14));
 
@@ -138,6 +156,17 @@ document.getElementById("date28").textContent =
 
 document.getElementById("date30").textContent =
     formatDate(addDays(today, 30));
+
+ ldocument.getElementById("customDays").addEventListener("input", function() {
+    const days = parseInt(this.value);
+
+    if (days > 0) {
+        document.getElementById("customDate").textContent =
+            formatDate(addDays(today, days));
+    } else {
+        document.getElementById("customDate").textContent = "";
+    }
+});
 </script>
 
 </body>
